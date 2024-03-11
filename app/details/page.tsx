@@ -15,7 +15,7 @@ function Details() {
     const searchParams = useSearchParams();
     const newsId = searchParams.get('newsId');
     const newsProductId = searchParams.get('newsProductid');
-    const { data: newsData, isLoading } = useQuery(
+    const { data: newsData, isLoading, isError } = useQuery(
       ["newsByProduct"],
       () => getNewsByProductFromAPI(Number(newsProductId)),
       {
@@ -32,6 +32,18 @@ function Details() {
 
     const formatDate = (date: string) => {
       return date.slice(0, 10) + ' às ' + date.slice(11, 13);
+    }
+
+    if (isLoading) {
+      <div className="flex pt-8">
+        <h1>Por favor aguarde enquanto os dados são carregados</h1>
+      </div>
+    }
+
+    if (isError) {
+      <div className="flex pt-8">
+        <h1>Houve um erro ao carregar os dados, por favor tente novamente mais tarde</h1>
+      </div>
     }
   
     return (

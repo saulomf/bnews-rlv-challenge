@@ -23,7 +23,7 @@ export default function News() {
     const [totalPages, setTotalPages] = useState<number>(1);
     const [newsList, setNewsList] = useState<NewsProps[]>([]);
     const [filterDates, setFilterDates] = useState<FilterDates>();
-    const { data: newsData } = useQuery(
+    const { data: newsData, isLoading, isError } = useQuery(
       ["news", pageControl],
       () => getNewsFromAPI({
           qtd: 10,
@@ -42,6 +42,18 @@ export default function News() {
         setTotalPages(newsData.totalPages);
       }
     }, [newsData]);
+    
+    if (isLoading) {
+      <div className="flex pt-8">
+        <h1>Por favor aguarde enquanto os dados são carregados</h1>
+      </div>
+    }
+
+    if (isError) {
+      <div className="flex pt-8">
+        <h1>Houve um erro ao carregar os dados, por favor tente novamente mais tarde</h1>
+      </div>
+    }
   
     return (
         <div>
