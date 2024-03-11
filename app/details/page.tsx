@@ -9,7 +9,7 @@ import Link from "next/link";
 import NewsCard from "../components/NewsCard";
 import Divider from "../components/Divider";
 
-export default function Details() {
+function Details() {
     const [newsDetails, setNewsDetails] = useState<NewsProps>();
     const [newsRelated, setNewsRelated] = useState<NewsProps[]>();
     const searchParams = useSearchParams();
@@ -35,7 +35,6 @@ export default function Details() {
     }
   
     return (
-      <Suspense fallback={<h1>Carregando dados</h1>}>
         <div>
           {newsDetails?.id && <div key={Number(newsId)} className="bg-[#111111] m-8 p-4 rounded-md">
             <h1 className="text-[#AAAAAA] font-[bold] text-[32px]">{newsDetails.titulo}</h1>
@@ -64,6 +63,13 @@ export default function Details() {
               <NewsCard news={news} key={news.id}/>
             )}
         </div>
-      </Suspense>
     );
   }
+
+export default function WrapedDetails() {
+  return (
+    <Suspense fallback={<h1>Carregando dados</h1>}>
+      <Details />
+    </Suspense>
+  );
+}

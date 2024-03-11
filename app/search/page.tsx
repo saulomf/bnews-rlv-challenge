@@ -1,7 +1,7 @@
 "use client"
 
 import { getNewsFromAPI } from "@/app/api";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import NewsCard from "../components/NewsCard";
 import { NewsProps } from "../news/page";
@@ -10,7 +10,7 @@ import Divider from "../components/Divider";
 import Pagination from "../components/Pagination";
 import CustomDatePicker, { FilterDates } from "../components/DatePicker";
 
-export default function News() {
+function Search() {
     const searchParams = useSearchParams();
     const searched = searchParams.get('searchTerms');
     const category = searchParams.get('category');
@@ -53,5 +53,13 @@ export default function News() {
           ))}
           <Pagination current={pageControl} last={totalPages} changePage={(page) => setPageControl(page)} />
         </div>
+    );
+  }
+  
+  export default function WrapedSearch() {
+    return (
+      <Suspense fallback={<h1>Carregando dados</h1>}>
+        <Search />
+      </Suspense>
     );
   }
