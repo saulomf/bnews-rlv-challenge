@@ -35,6 +35,8 @@ export default function Details() {
     const formatDate = (date: string) => {
       return date.slice(0, 10) + ' às ' + date.slice(11, 13);
     }
+
+    console.log(newsDetails);
   
     return (
       <div>

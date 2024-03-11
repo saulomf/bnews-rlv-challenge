@@ -7,6 +7,8 @@ import NewsCard from "../components/NewsCard";
 import { NewsProps } from "../news/page";
 import { useSearchParams } from "next/navigation";
 import Divider from "../components/Divider";
+import Pagination from "../components/Pagination";
+import CustomDatePicker, { FilterDates } from "../components/DatePicker";
 
 export default function News() {
     const searchParams = useSearchParams();
@@ -15,9 +17,16 @@ export default function News() {
     const [pageControl, setPageControl] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(1);
     const [newsList, setNewsList] = useState<NewsProps[]>([]);
+    const [filterDates, setFilterDates] = useState<FilterDates>();
     const { data: newsData } = useQuery(
-      ["news"],
-      () => getNewsFromAPI({ qtd: 10, page: pageControl, busca: searched || '' }),
+      ["news", pageControl, filterDates],
+      () => getNewsFromAPI({
+            qtd: 10,
+            page: pageControl,
+            de: filterDates?.startDate,
+            ate: filterDates?.finishDate,
+            busca: searched || ''
+        }),
       {
         enabled: true
       }
@@ -37,10 +46,12 @@ export default function News() {
                 {category ? category : `Resultados da busca '${searched}':`}
             </h1>
             <Divider />
-          </div>
+        </div>
+        <CustomDatePicker setFilterDates={setFilterDates} />
         {newsList.map(news => (
           <NewsCard news={news} key={news.id}/>
         ))}
+        <Pagination current={pageControl} last={totalPages} changePage={(page) => setPageControl(page)} />
       </div>
     );
   }

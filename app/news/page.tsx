@@ -2,6 +2,8 @@ import { getNewsFromAPI } from "@/app/api";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import NewsCard from "../components/NewsCard";
+import Pagination from "../components/Pagination";
+import CustomDatePicker, { FilterDates } from "../components/DatePicker";
 
 export type NewsProps = {
   id: number,
@@ -18,11 +20,17 @@ export default function News() {
     const [pageControl, setPageControl] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(1);
     const [newsList, setNewsList] = useState<NewsProps[]>([]);
+    const [filterDates, setFilterDates] = useState<FilterDates>();
     const { data: newsData } = useQuery(
-      ["news"],
-      () => getNewsFromAPI({ qtd: 10, page: pageControl }),
+      ["news", pageControl],
+      () => getNewsFromAPI({
+          qtd: 10,
+          page: pageControl,
+          de: filterDates?.startDate,
+          ate: filterDates?.finishDate
+        }),
       {
-        enabled: true
+        
       }
     );
 
@@ -35,9 +43,11 @@ export default function News() {
   
     return (
       <div>
+        <CustomDatePicker setFilterDates={setFilterDates} />
         {newsList.map(news => (
           <NewsCard news={news} key={news.id}/>
         ))}
+        <Pagination current={pageControl} last={totalPages} changePage={(page) => setPageControl(page)} />
       </div>
     );
   }

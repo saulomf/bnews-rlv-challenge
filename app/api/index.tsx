@@ -7,8 +7,8 @@ const API = axios.create({
 export type APIParams = {
     qtd: number;
     page: number;
-    de?: Date;
-    ate?: Date;
+    de?: string;
+    ate?: string;
     busca?: string;
 }
 
@@ -27,11 +27,13 @@ export async function getNewsFromAPI(params: APIParams) {
 export async function getNewsByProductFromAPI(idproduto: number) {
 
     try {
-        const { data } = await API.get(`noticias/?idproduto=${idproduto}`, {
+        const { data } = await API.get(`noticias/${idproduto ? 'idproduto=' + idproduto : ''}`, {
             params: {
                 introsize: 2040
             }
         });
+
+        console.log('na api', data);
 
         return data.items;
         
