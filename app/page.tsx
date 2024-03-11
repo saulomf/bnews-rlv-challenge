@@ -1,6 +1,11 @@
-import Image from "next/image";
-import Layout from "./components/Layout";
+"use client"
+
+import React from "react";
+import News from "./news/page";
 
 export default function Home() {
-  return <Layout />;
+
+  return (
+      <News />
+  );
 }
