@@ -1,3 +1,5 @@
+"use client"
+
 import { getNewsFromAPI } from "@/app/api";
 import { Suspense, useEffect, useState } from "react";
 import { useQuery } from "react-query";
