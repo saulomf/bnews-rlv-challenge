@@ -34,7 +34,7 @@ export async function getNewsByProductFromAPI(idproduto: number) {
         });
 
         return data.items;
-        
+
     } catch (error) {
         throw new Error(JSON.stringify(error));
     }

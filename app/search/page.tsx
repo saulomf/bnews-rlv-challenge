@@ -1,7 +1,7 @@
 "use client"
 
 import { getNewsFromAPI } from "@/app/api";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import NewsCard from "../components/NewsCard";
 import { NewsProps } from "../news/page";
@@ -40,18 +40,20 @@ export default function News() {
     }, [newsData]);
   
     return (
-      <div>
-        <div className="m-8 rounded-md">
-            <h1 className="text-[#DDDDDD] font-[bold] text-[32px]">
-                {category ? category : `Resultados da busca '${searched}':`}
-            </h1>
-            <Divider />
+      <Suspense fallback={<h1>Carregando dados</h1>}>
+        <div>
+          <div className="m-8 rounded-md">
+              <h1 className="text-[#DDDDDD] font-[bold] text-[32px]">
+                  {category ? category : `Resultados da busca '${searched}':`}
+              </h1>
+              <Divider />
+          </div>
+          <CustomDatePicker setFilterDates={setFilterDates} />
+          {newsList.map(news => (
+            <NewsCard news={news} key={news.id}/>
+          ))}
+          <Pagination current={pageControl} last={totalPages} changePage={(page) => setPageControl(page)} />
         </div>
-        <CustomDatePicker setFilterDates={setFilterDates} />
-        {newsList.map(news => (
-          <NewsCard news={news} key={news.id}/>
-        ))}
-        <Pagination current={pageControl} last={totalPages} changePage={(page) => setPageControl(page)} />
-      </div>
+      </Suspense>
     );
   }

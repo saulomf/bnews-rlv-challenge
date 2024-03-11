@@ -1,5 +1,5 @@
 import { getNewsFromAPI } from "@/app/api";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import NewsCard from "../components/NewsCard";
 import Pagination from "../components/Pagination";
@@ -42,12 +42,14 @@ export default function News() {
     }, [newsData]);
   
     return (
-      <div>
-        <CustomDatePicker setFilterDates={setFilterDates} />
-        {newsList.map(news => (
-          <NewsCard news={news} key={news.id}/>
-        ))}
-        <Pagination current={pageControl} last={totalPages} changePage={(page) => setPageControl(page)} />
-      </div>
+      <Suspense fallback={<h1>Carregando dados</h1>}>
+        <div>
+          <CustomDatePicker setFilterDates={setFilterDates} />
+          {newsList.map(news => (
+            <NewsCard news={news} key={news.id}/>
+          ))}
+          <Pagination current={pageControl} last={totalPages} changePage={(page) => setPageControl(page)} />
+        </div>
+      </Suspense>
     );
   }

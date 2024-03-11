@@ -1,7 +1,7 @@
 "use client"
 
 import { getNewsByProductFromAPI } from "@/app/api";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useQuery } from "react-query";
 import { NewsProps } from "../news/page";
 import { useSearchParams } from 'next/navigation'
@@ -15,7 +15,7 @@ export default function Details() {
     const searchParams = useSearchParams();
     const newsId = searchParams.get('newsId');
     const newsProductId = searchParams.get('newsProductid');
-    const { data: newsData } = useQuery(
+    const { data: newsData, isLoading } = useQuery(
       ["newsByProduct"],
       () => getNewsByProductFromAPI(Number(newsProductId)),
       {
@@ -35,7 +35,8 @@ export default function Details() {
     }
   
     return (
-      <div>
+      <Suspense fallback={<h1>Carregando dados</h1>}>
+        <div>
           {newsDetails?.id && <div key={Number(newsId)} className="bg-[#111111] m-8 p-4 rounded-md">
             <h1 className="text-[#AAAAAA] font-[bold] text-[32px]">{newsDetails.titulo}</h1>
             <Divider />
@@ -62,6 +63,7 @@ export default function Details() {
             {newsRelated?.filter(element => element.id !== newsDetails?.id).map(news =>
               <NewsCard news={news} key={news.id}/>
             )}
-      </div>
+        </div>
+      </Suspense>
     );
   }
