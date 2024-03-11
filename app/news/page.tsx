@@ -1,7 +1,7 @@
 "use client"
 
 import { getNewsFromAPI } from "@/app/api";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import NewsCard from "../components/NewsCard";
 import Pagination from "../components/Pagination";
@@ -44,7 +44,6 @@ export default function News() {
     }, [newsData]);
   
     return (
-      <Suspense fallback={<h1>Carregando dados</h1>}>
         <div>
           <CustomDatePicker setFilterDates={setFilterDates} />
           {newsList.map(news => (
@@ -52,6 +51,5 @@ export default function News() {
           ))}
           <Pagination current={pageControl} last={totalPages} changePage={(page) => setPageControl(page)} />
         </div>
-      </Suspense>
     );
   }

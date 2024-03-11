@@ -1,7 +1,7 @@
 "use client"
 
 import { getNewsFromAPI } from "@/app/api";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import NewsCard from "../components/NewsCard";
 import { NewsProps } from "../news/page";
@@ -40,7 +40,6 @@ export default function News() {
     }, [newsData]);
   
     return (
-      <Suspense fallback={<h1>Carregando dados</h1>}>
         <div>
           <div className="m-8 rounded-md">
               <h1 className="text-[#DDDDDD] font-[bold] text-[32px]">
@@ -54,6 +53,5 @@ export default function News() {
           ))}
           <Pagination current={pageControl} last={totalPages} changePage={(page) => setPageControl(page)} />
         </div>
-      </Suspense>
     );
   }
