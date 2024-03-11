@@ -30,13 +30,9 @@ export default function Details() {
       }
     }, [newsData, newsId, newsRelated]);
 
-    console.log(newsData)
-
     const formatDate = (date: string) => {
       return date.slice(0, 10) + ' às ' + date.slice(11, 13);
     }
-
-    console.log(newsDetails);
   
     return (
       <div>

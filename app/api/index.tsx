@@ -33,8 +33,6 @@ export async function getNewsByProductFromAPI(idproduto: number) {
             }
         });
 
-        console.log('na api', data);
-
         return data.items;
         
     } catch (error) {
