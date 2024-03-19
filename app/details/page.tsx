@@ -28,7 +28,7 @@ function Details() {
           setNewsRelated(newsData.slice(0, 5));
           setNewsDetails(newsData?.find((element: NewsProps) => element.id === Number(newsId)));
       }
-    }, [newsData, newsId, newsRelated]);
+    }, [newsData, newsId]);
 
     const formatDate = (date: string) => {
       return date.slice(0, 10) + ' às ' + date.slice(11, 13);
